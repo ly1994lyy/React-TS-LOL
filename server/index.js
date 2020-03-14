@@ -3,13 +3,12 @@ const app = express()
 
 
 app.use(require('cors')())
-app.get('/',(req,res)=>{
-    res.send({
-        username:'admin',
-        password:'123'
-    })
-})
+app.use(express.json())
 
-app.listen(3000,()=>{
-    console.log("http://localhost:3000");
+require('./routes/admin')(app)
+require('./plugins/db')(app)
+
+
+app.listen(4000,()=>{
+    console.log("http://localhost:4000");
 })
