@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Routes from './component/Routes';
+import AppRouter from './router/AppRouter';
 import './static/css/common.css'
 
-ReactDOM.render(<Routes />, document.getElementById('root'));
+ReactDOM.render(<AppRouter />, document.getElementById('root'));

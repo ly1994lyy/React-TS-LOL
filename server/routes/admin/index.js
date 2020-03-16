@@ -8,5 +8,22 @@ module.exports = app => {
         res.send(model)
     })
 
+    router.get('/categories',async (req,res)=>{
+        const model = await Category.find()
+        res.send(model)
+    })
+
+    router.get('/categories/:id',async (req,res)=>{
+        const model = await Category.findById(req.params.id)
+        res.send(model)
+    })
+
+    router.delete('/categories/:id',async (req,res)=>{
+        await Category.findByIdAndDelete(req.params.id,req.body)
+        res.send({
+            success:true
+        })
+    })
+
     app.use('/admin/api',router)
 }
