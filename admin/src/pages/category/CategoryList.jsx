@@ -48,8 +48,12 @@ function CategoryList(props) {
               onConfirm={async () => {
                 const res = await delCategory(record._id);
                 if (res.data.success === true) {
-                  return message.success("删除成功！");
+                   message.success("删除成功！")
+                   getCategory().then(res => {
+                    setDataSource(res.data);
+                  });
                 }
+            
               }}
             >
               <Button

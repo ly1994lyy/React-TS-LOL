@@ -33,7 +33,7 @@ function CreateCategory(props) {
     getCategory().then(res => {
       setCateList(res.data);
     });
-  });
+  },[]);
   return (
     <Form
       {...layout}
@@ -45,7 +45,6 @@ function CreateCategory(props) {
       <Form.Item
         label="上级分类"
         name="parent"
-        rules={[{ required: true, message: "请输入分类!" }]}
       >
         <Select placeholder="请选择上级分类">
           {cateList.map(item => {

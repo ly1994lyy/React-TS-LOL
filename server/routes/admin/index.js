@@ -1,34 +1,45 @@
 module.exports = app => {
   const express = require("express");
   const router = express.Router();
-  const Category = require("../../models/Category");
 
-  router.post("/categories", async (req, res) => {
-    const model = await Category.create(req.body);
+  router.post("/", async (req, res) => {
+    const model = await req.Model.create(req.body);
     res.send(model);
   });
 
-  router.get("/categories", async (req, res) => {
-    const model = await Category.find().populate("parent");
+  router.get("/", async (req, res) => {
+    const queryOptions = {}
+    if(req.Model.modelName === 'Category'){
+      queryOptions.populate = 'parent'
+    }
+    const model = await req.Model.find().setOptions(queryOptions);
     res.send(model);
   });
 
-  router.get("/categories/:id", async (req, res) => {
-    const model = await Category.findById(req.params.id).populate("parent");
+  router.get("/:id", async (req, res) => {
+    const queryOptions = {}
+    if(req.Model.modelName === 'Category'){
+      queryOptions.populate = 'parent'
+    }
+    const model = await req.Model.findById(req.params.id).setOptions(queryOptions);
     res.send(model);
   });
 
-  router.put("/categories/:id", async (req, res) => {
-    const model = await Category.findByIdAndUpdate(req.params.id, req.body);
+  router.put("/:id", async (req, res) => {
+    const model = await req.Model.findByIdAndUpdate(req.params.id, req.body);
     res.send(model);
   });
 
-  router.delete("/categories/:id", async (req, res) => {
-    await Category.findByIdAndDelete(req.params.id, req.body);
+  router.delete("/:id", async (req, res) => {
+    await req.Model.findByIdAndDelete(req.params.id, req.body);
     res.send({
       success: true
     });
   });
 
-  app.use("/admin/api", router);
+  app.use("/admin/api/:resource",async (req,res,next)=>{
+    const modelName = require('inflection').classify(req.params.resource)
+    req.Model = require(`../../models/${modelName}`)
+    next()
+  } ,router);
 };

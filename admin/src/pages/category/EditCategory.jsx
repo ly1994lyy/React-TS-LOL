@@ -39,11 +39,9 @@ function EditCategory(props) {
       }else {
         form.setFieldsValue({
           name: res.data.name,
-          parent:'请选择'
         });
       }
     });
-    console.log(form);
     getCategory().then(res => {
       setCateList(res.data);
     });
@@ -59,7 +57,6 @@ function EditCategory(props) {
       <Form.Item
         label="上级分类"
         name="parent"
-        rules={[{ required: true, message: "请输入分类!" }]}
       >
         <Select>
           {cateList.map(item => {

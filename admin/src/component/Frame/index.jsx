@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { Layout, Menu, Breadcrumb } from "antd";
 import {
   TeamOutlined,
@@ -10,23 +10,21 @@ import { withRouter, NavLink } from "react-router-dom";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-class Index extends React.Component {
-  state = {
-    collapsed: false
+function Index(props) {
+  const [collapsed,setCollapsed] = useState(false)
+  useEffect(()=>{
+    console.log(props.history);
+  },[])
+  const onCollapse = collapsed => {
+    setCollapsed(collapsed)
   };
 
-  onCollapse = collapsed => {
-    console.log(collapsed);
-    this.setState({ collapsed });
-  };
-
-  render(props) {
     return (
       <Layout style={{ minHeight: "100vh" }}>
         <Sider
           collapsible
-          collapsed={this.state.collapsed}
-          onCollapse={this.onCollapse}
+          collapsed={collapsed}
+          onCollapse={onCollapse}
           breakpoint="sm"
         >
           <div className="logo">王者荣耀管理后台</div>
@@ -58,12 +56,16 @@ class Index extends React.Component {
               title={
                 <span>
                   <TeamOutlined />
-                  <span>Team</span>
+                  <span>装备管理</span>
                 </span>
               }
             >
-              <Menu.Item key="6">Team 1</Menu.Item>
-              <Menu.Item key="8">Team 2</Menu.Item>
+              <Menu.Item key="6">
+              <NavLink to="/createitem">新建装备</NavLink>
+              </Menu.Item>
+              <Menu.Item key="8">
+              <NavLink to="/itemlist">装备列表</NavLink>
+              </Menu.Item>
             </SubMenu>
           </Menu>
         </Sider>
@@ -78,7 +80,7 @@ class Index extends React.Component {
               className="site-layout-background"
               style={{ padding: 24, minHeight: 360 }}
             >
-              {this.props.children}
+              {props.children}
             </div>
           </Content>
           <Footer style={{ textAlign: "center" }}>
@@ -87,7 +89,6 @@ class Index extends React.Component {
         </Layout>
       </Layout>
     );
-  }
 }
 
 export default withRouter(Index);
