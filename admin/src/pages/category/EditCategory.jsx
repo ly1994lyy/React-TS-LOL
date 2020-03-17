@@ -1,7 +1,9 @@
-import React,{useState,useEffect} from "react";
-import { Form, Input, Button, message } from "antd";
-import { putCategory, getCategoryByID } from "../../services/category";
+import React, { useState, useEffect } from "react";
+import { Form, Input, Button, message,Select } from "antd";
+import { putCategory, getCategoryByID,getCategory } from "../../services/category";
 import { withRouter } from "react-router-dom";
+
+const {Option} = Select
 
 const layout = {
   labelCol: { span: 5 },
@@ -15,94 +17,75 @@ const onFinishFailed = errorInfo => {
   console.log("Failed:", errorInfo);
 };
 
-function  EditCategory(props) {
-    const [form] = Form.useForm();
-    const onFinish = values => {
-            console.log(values.name);
-         };
-    const[currentData,setCurrentData] = useState({})
-    useEffect(()=>{
-        getCategoryByID(props.match.params.id).then(
-            res=>{
-                setCurrentData(res.data)
-                console.log(currentData);
-            }
-        )
-    })
-    
-    return(
-        <Form
-        {...layout}
-        name="basic"
-        form={form}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        initialValues={{name:currentData.name}}
+function EditCategory(props) {
+  const [form] = Form.useForm();
+  const [cateList, setCateList] = useState([]);
+  const onFinish = async values => {
+    const res = await putCategory(props.match.params.id, values);
+    if(res.status===200){
+      message.success('修改成功！')
+      props.history.push('/categorylist')
+    }else {
+      message.error('修改失败！')
+    }
+  };
+  useEffect(() => {
+    getCategoryByID(props.match.params.id).then(res => {
+      if(res.data.parent){
+        form.setFieldsValue({
+          name: res.data.name,
+          parent:res.data.parent._id
+        });
+      }else {
+        form.setFieldsValue({
+          name: res.data.name,
+          parent:'请选择'
+        });
+      }
+    });
+    console.log(form);
+    getCategory().then(res => {
+      setCateList(res.data);
+    });
+  },[]);
+
+  return (
+    <Form
+      {...layout}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      form={form}
+    >
+      <Form.Item
+        label="上级分类"
+        name="parent"
+        rules={[{ required: true, message: "请输入分类!" }]}
       >
-        <Form.Item
-          label="修改分类"
-          name="name"
-          rules={[{ required: true, message: "请输入分类!" }]}
-        >
-          <Input />
-        </Form.Item>
+        <Select>
+          {cateList.map(item => {
+            return (
+              <Option key={item._id} value={item._id}>
+                {item.name}
+              </Option>
+            );
+          })}
+        </Select>
+      </Form.Item>
+      <Form.Item
+        label="分类名称"
+        name="name"
+        rules={[{ required: true, message: "请输入分类!" }]}
+      >
+        <Input />
+      </Form.Item>
 
-        <Form.Item {...tailLayout}>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
-    )
+      <Form.Item {...tailLayout}>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
+  );
 }
-
-// class EditCategory extends React.Component {
-//   formRef = React.createRef();
-//   state = {
-//     currentData: {
-//         name:''
-//     }
-//   };
-//   onFinish = values => {
-//     console.log(values.name);
-//   };
-
-//   componentDidMount() {
-//     this.getCateById();
-//   }
-
-//   async getCateById() {
-//     const res = await getCategoryByID(this.props.match.params.id);
-//      this.setState({
-//        currentData: res.data
-//      });
-//   }
-
-//   render() {
-//     return (
-    //   <Form
-    //     {...layout}
-    //     name="basic"
-    //     onFinish={this.onFinish}
-    //     onFinishFailed={onFinishFailed}
-    //   >
-    //     <Form.Item
-    //       label="修改分类"
-    //       ref={this.formRef}
-    //       name="name"
-    //       rules={[{ required: true, message: "请输入分类!" }]}
-    //     >
-    //       <Input />
-    //     </Form.Item>
-
-    //     <Form.Item {...tailLayout}>
-    //       <Button type="primary" htmlType="submit">
-    //         Submit
-    //       </Button>
-    //     </Form.Item>
-    //   </Form>
-//     );
-//   }
-// }
 
 export default withRouter(EditCategory);
