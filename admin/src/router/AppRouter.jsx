@@ -9,6 +9,9 @@ import EditCategory from "../pages/category/EditCategory"
 import CreateItem from '../pages/item/CreateItem'
 import ItemList from '../pages/item/ItemList'
 import EditItem from '../pages/item/EditItem'
+import CreateHero from "../pages/hero/CreateHero"
+import EditHero from "../pages/hero/EditHero"
+import HeroList from "../pages/hero/HeroList"
 
 class AppRouter extends React.Component {
   render() {
@@ -23,6 +26,9 @@ class AppRouter extends React.Component {
             <Route path="/createitem" component={CreateItem}></Route>
             <Route path="/edititem/:id" component={EditItem}></Route>
             <Route path="/itemlist" component={ItemList}></Route>
+            <Route path="/createhero" component={CreateHero}></Route>
+            <Route path="/edithero/:id" component={EditHero}></Route>
+            <Route path="/herolist" component={HeroList}></Route>
             <Route component={PageNotFound}></Route>
           </Switch>
         </Frame>

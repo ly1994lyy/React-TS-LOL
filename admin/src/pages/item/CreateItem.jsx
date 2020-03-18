@@ -62,7 +62,7 @@ function CreateItem(props) {
       >
         <Input />
       </Form.Item>
-      <Form.Item label="装备图片">
+      <Form.Item label="装备图片" rules={[{ required: true, message: "请输入分类!" }]}>
         <Upload
           name="file"
           listType="picture-card"
