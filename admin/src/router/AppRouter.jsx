@@ -6,6 +6,9 @@ import Frame from "../component/Frame/index";
 import CreateCategory from "../pages/category/CreateCategory";
 import CategoryList from "../pages/category/CategoryList"
 import EditCategory from "../pages/category/EditCategory"
+import CreateItem from '../pages/item/CreateItem'
+import ItemList from '../pages/item/ItemList'
+import EditItem from '../pages/item/EditItem'
 
 class AppRouter extends React.Component {
   render() {
@@ -17,6 +20,9 @@ class AppRouter extends React.Component {
             <Route path="/createcategory" component={CreateCategory}></Route>
             <Route path="/editcategory/:id" component={EditCategory}></Route>
             <Route path="/categorylist" component={CategoryList}></Route>
+            <Route path="/createitem" component={CreateItem}></Route>
+            <Route path="/edititem/:id" component={EditItem}></Route>
+            <Route path="/itemlist" component={ItemList}></Route>
             <Route component={PageNotFound}></Route>
           </Switch>
         </Frame>

@@ -24,8 +24,10 @@ function CreateCategory(props) {
       name: values.name,
       parent: values.parent
     });
-    message.success("添加成功");
-    props.history.push("/categorylist");
+    if (res.status === 200) {
+      message.success("添加成功");
+      props.history.push("/categorylist");
+    }
   };
 
   const [cateList, setCateList] = useState([]);
@@ -33,7 +35,7 @@ function CreateCategory(props) {
     getCategory().then(res => {
       setCateList(res.data);
     });
-  },[]);
+  }, []);
   return (
     <Form
       {...layout}
@@ -42,10 +44,7 @@ function CreateCategory(props) {
       onFinishFailed={onFinishFailed}
       form={form}
     >
-      <Form.Item
-        label="上级分类"
-        name="parent"
-      >
+      <Form.Item label="上级分类" name="parent">
         <Select placeholder="请选择上级分类">
           {cateList.map(item => {
             return (

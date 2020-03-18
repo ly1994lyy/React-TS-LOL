@@ -1,21 +1,21 @@
 import {get,put,del,post} from '../utils/http'
 
 export function createCategory(data) {
-    return post('/categories',data)
+    return post('/rest/categories',data)
 }
 
 export function putCategory(id,data) {
-    return put(`/categories/${id}`,data)
+    return put(`/rest/categories/${id}`,data)
 }
 
 export function getCategory() {
-    return get('/categories')
+    return get('/rest/categories')
 }
 
 export function getCategoryByID(id) {
-    return get(`/categories/${id}`)
+    return get(`/rest/categories/${id}`)
 }
 
 export function delCategory(id) {
-    return del(`/categories/${id}`)
+    return del(`/rest/categories/${id}`)
 }

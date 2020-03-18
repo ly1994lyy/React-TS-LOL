@@ -1,6 +1,8 @@
 module.exports = app => {
   const express = require("express");
-  const router = express.Router();
+  const router = express.Router({
+    mergeParams:true
+  });
 
   router.post("/", async (req, res) => {
     const model = await req.Model.create(req.body);
@@ -37,9 +39,17 @@ module.exports = app => {
     });
   });
 
-  app.use("/admin/api/:resource",async (req,res,next)=>{
+  app.use("/admin/api/rest/:resource",async (req,res,next)=>{
     const modelName = require('inflection').classify(req.params.resource)
     req.Model = require(`../../models/${modelName}`)
     next()
   } ,router);
+
+  const multer = require("multer")
+  const upload = multer({dest:__dirname+"/../../uploads"})
+  app.post("/admin/api/upload",upload.single("file"),async (req,res)=>{
+    const file = req.file
+    file.url = `http://localhost:4000/uploads/${file.filename}`
+    res.send(file)
+  })
 };

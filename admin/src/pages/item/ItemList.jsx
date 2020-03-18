@@ -1,35 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button, Popconfirm, message } from "antd";
-import { getCategory, delCategory } from "../../services/category";
+import { getItem, delItem } from "../../services/item";
 
-function CategoryList(props) {
+function ItemList(props) {
   const [dataSource, setDataSource] = useState([]);
   useEffect(() => {
-    getCategory().then(res => {
+    getItem().then(res => {
       setDataSource(res.data);
     });
   }, []);
   const columns = [
     {
       title: "序号",
-      render:(text,record,index)=>index+1
+      align: "center",
+      render:(text,record,index)=> index+1
     },
     {
       title: "ID",
-      dataIndex: "_id"
+      dataIndex: "_id",
+      width: 200,
+      align: "center"
     },
     {
-      title: "上级分类",
-      dataIndex:"parent",
-      render: (text, record, index) => {
-        if(record.parent){
-          return record.parent.name
-        }else return
+      title: "装备名称",
+      dataIndex: "name",
+      width: 180,
+      align: "center"
+    },
+    {
+      title: "装备图片",
+      dataIndex: "icon",
+      align: "center",
+      render: (text, record) => {
+        return <img src={record.icon} alt="" style={{width:'60px'}} />;
       }
-    },
-    {
-      title: "名称",
-      dataIndex: "name"
     },
     {
       title: "操作",
@@ -41,7 +45,7 @@ function CategoryList(props) {
               size="small"
               shape="round"
               onClick={() => {
-                props.history.push(`/editcategory/${record._id}`);
+                props.history.push(`/edititem/${record._id}`);
               }}
             >
               修改
@@ -50,14 +54,13 @@ function CategoryList(props) {
               title="确定要删除此项吗？"
               onCancel={() => message.info("取消删除")}
               onConfirm={async () => {
-                const res = await delCategory(record._id);
+                const res = await delItem(record._id);
                 if (res.data.success === true) {
-                   message.success("删除成功！")
-                   getCategory().then(res => {
+                  message.success("删除成功！");
+                  getItem().then(res => {
                     setDataSource(res.data);
                   });
                 }
-            
               }}
             >
               <Button
@@ -86,4 +89,4 @@ function CategoryList(props) {
   );
 }
 
-export default CategoryList;
+export default ItemList;

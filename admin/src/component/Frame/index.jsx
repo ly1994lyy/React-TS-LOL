@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState} from "react";
 import { Layout, Menu, Breadcrumb } from "antd";
 import {
   TeamOutlined,
@@ -12,9 +12,6 @@ const { SubMenu } = Menu;
 
 function Index(props) {
   const [collapsed,setCollapsed] = useState(false)
-  useEffect(()=>{
-    console.log(props.history);
-  },[])
   const onCollapse = collapsed => {
     setCollapsed(collapsed)
   };

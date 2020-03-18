@@ -4,7 +4,7 @@ export default class PageNotFound extends React.Component {
     render() {
         return (
             <div>
-                sada
+                页面飞走了。。。。。
             </div>
         )
     }
