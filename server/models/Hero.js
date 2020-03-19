@@ -7,7 +7,7 @@ const schema = mongoose.Schema({
     categories:[{type:mongoose.SchemaTypes.ObjectId,ref:"Category"}],
     scores:{
         difficult:{type:Number},
-        skills:{type:Number},
+        skilles:{type:Number},
         attack:{type:Number},
         survive:{type:Number},
     },
