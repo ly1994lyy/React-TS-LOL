@@ -76,10 +76,7 @@ function EditHero(props) {
       survive: values.survive
     };
     const skills = values.skills.map(item=>{
-      if(typeof(item.icon)==="string") {
-        item.icon = item.icon
-      }
-      else{
+      if(typeof(item.icon)!="string") {
         item.icon = item.icon.file.response.url
       }
       return item

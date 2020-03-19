@@ -80,6 +80,22 @@ function Index(props) {
               <NavLink to="/herolist">英雄列表</NavLink>
             </Menu.Item>
           </SubMenu>
+          <SubMenu
+            key="sub4"
+            title={
+              <span>
+                <TeamOutlined />
+                <span>文章管理</span>
+              </span>
+            }
+          >
+            <Menu.Item key="8">
+              <NavLink to="/createarticle">新建文章</NavLink>
+            </Menu.Item>
+            <Menu.Item key="9">
+              <NavLink to="/articlelist">文章列表</NavLink>
+            </Menu.Item>
+          </SubMenu>
         </Menu>
       </Sider>
       <Layout className="site-layout">
