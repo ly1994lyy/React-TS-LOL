@@ -25,7 +25,7 @@ function CreateItem(props) {
     const res = await createItem({ ...values, icon: imageUrl });
     if (res.status === 200) {
       message.success("添加成功");
-      props.history.push("/itemlist");
+      props.history.push("/admin/itemlist");
     }
   };
 

@@ -45,7 +45,7 @@ function ItemList(props) {
               size="small"
               shape="round"
               onClick={() => {
-                props.history.push(`/edititem/${record._id}`);
+                props.history.push(`/admin/edititem/${record._id}`);
               }}
             >
               修改

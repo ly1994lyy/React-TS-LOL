@@ -28,7 +28,7 @@ function Index(props) {
         <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
           <Menu.Item key="1">
             <PieChartOutlined />
-            <NavLink to="/">
+            <NavLink to="/admin">
               <span>首页</span>
             </NavLink>
           </Menu.Item>
@@ -42,10 +42,10 @@ function Index(props) {
             }
           >
             <Menu.Item key="2">
-              <NavLink to="/createcategory">新建分类</NavLink>
+              <NavLink to="/admin/createcategory">新建分类</NavLink>
             </Menu.Item>
             <Menu.Item key="3">
-              <NavLink to="/categorylist">分类列表</NavLink>
+              <NavLink to="/admin/categorylist">分类列表</NavLink>
             </Menu.Item>
           </SubMenu>
           <SubMenu
@@ -58,10 +58,10 @@ function Index(props) {
             }
           >
             <Menu.Item key="4">
-              <NavLink to="/createitem">新建装备</NavLink>
+              <NavLink to="/admin/createitem">新建装备</NavLink>
             </Menu.Item>
             <Menu.Item key="5">
-              <NavLink to="/itemlist">装备列表</NavLink>
+              <NavLink to="/admin/itemlist">装备列表</NavLink>
             </Menu.Item>
           </SubMenu>
           <SubMenu
@@ -74,10 +74,10 @@ function Index(props) {
             }
           >
             <Menu.Item key="6">
-              <NavLink to="/createhero">新建英雄</NavLink>
+              <NavLink to="/admin/createhero">新建英雄</NavLink>
             </Menu.Item>
             <Menu.Item key="7">
-              <NavLink to="/herolist">英雄列表</NavLink>
+              <NavLink to="/admin/herolist">英雄列表</NavLink>
             </Menu.Item>
           </SubMenu>
           <SubMenu
@@ -90,10 +90,26 @@ function Index(props) {
             }
           >
             <Menu.Item key="8">
-              <NavLink to="/createarticle">新建文章</NavLink>
+              <NavLink to="/admin/createarticle">新建文章</NavLink>
             </Menu.Item>
             <Menu.Item key="9">
-              <NavLink to="/articlelist">文章列表</NavLink>
+              <NavLink to="/admin/articlelist">文章列表</NavLink>
+            </Menu.Item>
+          </SubMenu>
+          <SubMenu
+            key="sub5"
+            title={
+              <span>
+                <TeamOutlined />
+                <span>用户管理</span>
+              </span>
+            }
+          >
+            <Menu.Item key="10">
+              <NavLink to="/admin/createuser">新建用户</NavLink>
+            </Menu.Item>
+            <Menu.Item key="11">
+              <NavLink to="/admin/userlist">用户列表</NavLink>
             </Menu.Item>
           </SubMenu>
         </Menu>

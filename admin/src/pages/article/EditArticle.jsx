@@ -33,7 +33,7 @@ function EditArticle(props) {
     const res = await putArticle(props.match.params.id,{...values});
     if (res.status === 200) {
       message.success("添加成功");
-      props.history.push("/articlelist");
+      props.history.push("/admin/articlelist");
     }
   };
 

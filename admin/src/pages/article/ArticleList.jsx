@@ -51,7 +51,7 @@ function ArticleList(props) {
               size="small"
               shape="round"
               onClick={() => {
-                props.history.push(`/editarticle/${record._id}`);
+                props.history.push(`/admin/editarticle/${record._id}`);
               }}
             >
               修改

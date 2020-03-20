@@ -1,38 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button, Popconfirm, message } from "antd";
-import { getCategory, delCategory } from "../../services/category";
+import { getAdmin, delAdmin } from "../../services/user";
 
-function CategoryList(props) {
+function UserList(props) {
   const [dataSource, setDataSource] = useState([]);
   useEffect(() => {
-    getCategory().then(res => {
+    getAdmin().then(res => {
       setDataSource(res.data);
     });
   }, []);
   const columns = [
     {
       title: "序号",
-      render:(text,record,index)=>index+1
+      align: "center",
+      render:(text,record,index)=> index+1
     },
     {
       title: "ID",
-      dataIndex: "_id"
+      dataIndex: "_id",
+      width: 200,
+      align: "center"
     },
     {
-      title: "上级分类",
-      dataIndex:"parent",
-      render: (text, record, index) => {
-        if(record.parent){
-          return record.parent.name
-        }else return
-      }
-    },
-    {
-      title: "名称",
-      dataIndex: "name"
+      title: "用户名",
+      dataIndex: "username",
+      width: 280,
+      align: "center"
     },
     {
       title: "操作",
+      align:"center",
       render: (txt, record, index) => {
         return (
           <div>
@@ -41,7 +38,7 @@ function CategoryList(props) {
               size="small"
               shape="round"
               onClick={() => {
-                props.history.push(`/admin/editcategory/${record._id}`);
+                props.history.push(`/admin/edituser/${record._id}`);
               }}
             >
               修改
@@ -50,14 +47,13 @@ function CategoryList(props) {
               title="确定要删除此项吗？"
               onCancel={() => message.info("取消删除")}
               onConfirm={async () => {
-                const res = await delCategory(record._id);
+                const res = await delAdmin(record._id);
                 if (res.data.success === true) {
-                   message.success("删除成功！")
-                   getCategory().then(res => {
+                  message.success("删除成功！");
+                  getAdmin().then(res => {
                     setDataSource(res.data);
                   });
                 }
-            
               }}
             >
               <Button
@@ -86,4 +82,5 @@ function CategoryList(props) {
   );
 }
 
-export default CategoryList;
+export default UserList;
+

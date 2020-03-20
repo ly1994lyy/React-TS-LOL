@@ -26,7 +26,7 @@ function CreateCategory(props) {
     });
     if (res.status === 200) {
       message.success("添加成功");
-      props.history.push("/categorylist");
+      props.history.push("/admin/categorylist");
     }
   };
 

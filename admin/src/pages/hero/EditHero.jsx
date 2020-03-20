@@ -89,7 +89,7 @@ function EditHero(props) {
     });
     if (res.status === 200) {
       message.success("修改成功");
-      props.history.push("/herolist");
+      props.history.push("/admin/herolist");
     }
   };
 

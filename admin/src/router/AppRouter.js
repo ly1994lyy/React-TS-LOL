@@ -15,6 +15,9 @@ import HeroList from "../pages/hero/HeroList"
 import CreateArticle from "../pages/article/CreateArticle"
 import EditArticle from "../pages/article/EditArticle"
 import ArticleList from "../pages/article/ArticleList"
+import CreateUser from "../pages/user/CreateUser"
+import EditUser from "../pages/user/EditUser"
+import UserList from "../pages/user/UserList"
 
 class AppRouter extends React.Component {
   render() {
@@ -35,6 +38,9 @@ class AppRouter extends React.Component {
             <Route path="/createarticle" component={CreateArticle}></Route>
             <Route path="/editarticle/:id" component={EditArticle}></Route>
             <Route path="/articlelist" component={ArticleList}></Route>
+            <Route path="/createuser" component={CreateUser}></Route>
+            <Route path="/edituser/:id" component={EditUser}></Route>
+            <Route path="/userlist" component={UserList}></Route>
             <Route component={PageNotFound}></Route>
           </Switch>
         </Frame>

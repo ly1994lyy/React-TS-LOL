@@ -24,7 +24,7 @@ function EditCategory(props) {
     const res = await putCategory(props.match.params.id, values);
     if(res.status===200){
       message.success('修改成功！')
-      props.history.push('/categorylist')
+      props.history.push('/admin/categorylist')
     }else {
       message.error('修改失败！')
     }

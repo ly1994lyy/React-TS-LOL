@@ -25,7 +25,7 @@ function EditItem(props) {
     const res = await putItem(props.match.params.id, {...values,icon:imageUrl});
     if(res.status===200){
       message.success('修改成功！')
-      props.history.push('/itemlist')
+      props.history.push('/admin/itemlist')
     }else {
       message.error('修改失败！')
     }

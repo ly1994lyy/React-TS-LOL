@@ -72,7 +72,7 @@ function CreateHero(props) {
     const res = await createHero({ ...values, avatar: imageUrl });
     if (res.status === 200) {
       message.success("添加成功");
-      props.history.push("/herolist");
+      props.history.push("/admin/herolist");
     }
   };
 

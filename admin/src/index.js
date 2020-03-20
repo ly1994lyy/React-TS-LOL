@@ -1,6 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AppRouter from './router/AppRouter';
+import { HashRouter as Router,Route,Switch,Redirect } from "react-router-dom"
+import {mainRoutes} from "./router/index"
+import App from "./component/App"
 import './static/css/common.css'
 
-ReactDOM.render(<AppRouter />, document.getElementById('root'));
+ReactDOM.render(
+    <Router>
+        <Switch>
+            <Route path="/admin" render={routeProps=><App {...routeProps} />} />
+            {mainRoutes.map(route=>{
+                return <Route key={route.path} {...route} />
+            })}
+            <Redirect to="/404" />
+        </Switch>
+    </Router>
+, document.getElementById('root'));
+

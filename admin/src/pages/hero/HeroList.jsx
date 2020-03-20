@@ -45,7 +45,7 @@ function HeroList(props) {
               size="small"
               shape="round"
               onClick={() => {
-                props.history.push(`/edithero/${record._id}`);
+                props.history.push(`/admin/edithero/${record._id}`);
               }}
             >
               修改
