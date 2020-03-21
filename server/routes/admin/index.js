@@ -60,12 +60,13 @@ module.exports = app => {
 
   app.post("/admin/api/login", async (req,res)=> {
     const {username,password} = req.body
+    adminUser.create({username:'wzry',password:'123'}) //第一次登陆之后请删除此行代码
     const user = await adminUser.findOne({username}).select("+password")
     assert(user,422,"用户不存在！")
     const isValid =  require("bcrypt").compareSync(password,user.password)
     assert(isValid,422,"密码错误！")
     const token = jwt.sign({id:user._id},app.get('secret'))
-    res.send({token})
+    res.send({token,user})
   })
 
   //错误处理函数

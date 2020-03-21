@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { Layout, Menu, Breadcrumb } from "antd";
+import React, { useState, useEffect } from "react";
+import { Layout, Menu, Breadcrumb, Button } from "antd";
 import {
   TeamOutlined,
   UserOutlined,
-  PieChartOutlined
+  PieChartOutlined,
+  LoginOutlined
 } from "@ant-design/icons";
 import { withRouter, NavLink } from "react-router-dom";
 
@@ -12,9 +13,18 @@ const { SubMenu } = Menu;
 
 function Index(props) {
   const [collapsed, setCollapsed] = useState(false);
+  const [defaultKey] = useState(props.location.pathname);
+  const [defaultKey1, setDefaultKey1] = useState(props.location.pathname);
+  const [username, setUser] = useState("");
   const onCollapse = collapsed => {
     setCollapsed(collapsed);
+    console.log(props.location);
   };
+
+  useEffect(() => {
+    const user = localStorage.getItem("username");
+    setUser(user);
+  }, []);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -25,8 +35,15 @@ function Index(props) {
         breakpoint="sm"
       >
         <div className="logo">王者荣耀管理后台</div>
-        <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-          <Menu.Item key="1">
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={[`${defaultKey}`]}
+          mode="inline"
+          onClick={({ item, key, keyPath, selectedKeys, domEvent }) => {
+            setDefaultKey1(key);
+          }}
+        >
+          <Menu.Item key="/admin">
             <PieChartOutlined />
             <NavLink to="/admin">
               <span>首页</span>
@@ -41,10 +58,10 @@ function Index(props) {
               </span>
             }
           >
-            <Menu.Item key="2">
+            <Menu.Item key="/admin/createcategory">
               <NavLink to="/admin/createcategory">新建分类</NavLink>
             </Menu.Item>
-            <Menu.Item key="3">
+            <Menu.Item key="/admin/categorylist">
               <NavLink to="/admin/categorylist">分类列表</NavLink>
             </Menu.Item>
           </SubMenu>
@@ -57,10 +74,10 @@ function Index(props) {
               </span>
             }
           >
-            <Menu.Item key="4">
+            <Menu.Item key="/admin/createitem">
               <NavLink to="/admin/createitem">新建装备</NavLink>
             </Menu.Item>
-            <Menu.Item key="5">
+            <Menu.Item key="/admin/itemlist">
               <NavLink to="/admin/itemlist">装备列表</NavLink>
             </Menu.Item>
           </SubMenu>
@@ -73,10 +90,10 @@ function Index(props) {
               </span>
             }
           >
-            <Menu.Item key="6">
+            <Menu.Item key="/admin/createhero">
               <NavLink to="/admin/createhero">新建英雄</NavLink>
             </Menu.Item>
-            <Menu.Item key="7">
+            <Menu.Item key="/admin/herolist">
               <NavLink to="/admin/herolist">英雄列表</NavLink>
             </Menu.Item>
           </SubMenu>
@@ -89,10 +106,10 @@ function Index(props) {
               </span>
             }
           >
-            <Menu.Item key="8">
+            <Menu.Item key="/admin/createarticle">
               <NavLink to="/admin/createarticle">新建文章</NavLink>
             </Menu.Item>
-            <Menu.Item key="9">
+            <Menu.Item key="/admin/articlelist">
               <NavLink to="/admin/articlelist">文章列表</NavLink>
             </Menu.Item>
           </SubMenu>
@@ -105,21 +122,33 @@ function Index(props) {
               </span>
             }
           >
-            <Menu.Item key="10">
+            <Menu.Item key="/admin/createuser">
               <NavLink to="/admin/createuser">新建用户</NavLink>
             </Menu.Item>
-            <Menu.Item key="11">
+            <Menu.Item key="/admin/userlist">
               <NavLink to="/admin/userlist">用户列表</NavLink>
             </Menu.Item>
           </SubMenu>
         </Menu>
       </Sider>
       <Layout className="site-layout">
-        <Header className="site-layout-background" style={{ padding: 0 }} />
+        <Header className="site-layout-background" style={{ padding: 0 }}>
+          <div style={{ textAlign: "right",paddingRight:"20px" }}>
+            {username}{" "}
+            <Button type="primary" size="small" icon={<LoginOutlined />} onClick={()=>{
+              localStorage.removeItem('token')
+              localStorage.removeItem('username')
+              props.history.push('/login')
+            }}>
+              Logout
+            </Button>
+          </div>
+        </Header>
         <Content style={{ margin: "0 16px" }}>
           <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
+            {defaultKey1.split("/", -2).map((item, index) => {
+              return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>;
+            })}
           </Breadcrumb>
           <div
             className="site-layout-background"
@@ -129,7 +158,7 @@ function Index(props) {
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
-          Ant Design ©2018 Created by Ant UED
+          王者荣耀管理后台 ©2020 Created by ly1994lyy
         </Footer>
       </Layout>
     </Layout>

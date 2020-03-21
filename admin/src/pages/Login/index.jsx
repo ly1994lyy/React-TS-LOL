@@ -7,8 +7,8 @@ import "./style.less";
 function index(props) {
   const onFinish = async values => {
     const res = await userLogin({ ...values });
-    console.log(res);
     localStorage.token = res.data.token
+    localStorage.username = res.data.user.username
     message.success('登录成功！')
     props.history.push("/admin")
   };

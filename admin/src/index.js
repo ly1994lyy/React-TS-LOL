@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { HashRouter as Router,Route,Switch,Redirect } from "react-router-dom"
 import {mainRoutes} from "./router/index"
 import App from "./component/App"
-import './static/css/common.css'
+import './static/css/common.less'
 
 ReactDOM.render(
     <Router>
