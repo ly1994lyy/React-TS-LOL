@@ -28,7 +28,7 @@ username:wzry
 password:123
 ```
 > ## 3.项目截图
-![image](https://gitee.com/liyue0718/vue-element-ShopManage-images/blob/master/login.png)
+![image](http://r.photo.store.qq.com/psc?/V14DeYi14ANerh/8x9yFjEE1.JqOZi1gudBZ9C.UVUqosYdBehgRoYp74yPJMfsC8IQ2TA.26bi2r7CBR4zxTIJqagdTehXi*polFy7Hv.*XBOogfSyAaxhg.Y!/r)
 
 ![image](http://r.photo.store.qq.com/psc?/V14DeYi14ANerh/8x9yFjEE1.JqOZi1gudBZ7ujjv3efS4oXgvvxepgFvZiNdIUJ9UpBH*H0EHCONaWmHbiJ1lE13.3DoOCoPDXoKJk7X7*Q2Ub7KBkoAQA5uQ!/r)
 
