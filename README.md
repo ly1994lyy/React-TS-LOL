@@ -3,7 +3,7 @@
 ## Vue版本的请前往 [基于vue(Element)+node(Express)+mongodb的王者荣耀手机端和管理后台](https://github.com/ly1994lyy/vue-node-moba)
 
 > ## 1.文件说明：
-- admin:使用vue-cli(4.2.3)创建的所有前端页面文件
+- admin:使用create-react-app创建的所有前端页面文件
 - serve：后端代码以及数据库
 
 > ## 2.如何运行：
