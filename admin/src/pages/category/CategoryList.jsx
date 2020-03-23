@@ -9,6 +9,9 @@ function CategoryList(props) {
       setDataSource(res.data);
     });
   }, []);
+  const showTotal = (total) => {
+    return `共${total}条`
+  };
   const columns = [
     {
       title: "序号",
@@ -79,6 +82,11 @@ function CategoryList(props) {
     <Table
       rowKey="_id"
       columns={columns}
+      pagination={{
+        pageSize: 5,
+        showTotal:showTotal,
+        showQuickJumper: true,
+      }}
       dataSource={dataSource}
       bordered
       stripe

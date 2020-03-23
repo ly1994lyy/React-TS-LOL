@@ -9,11 +9,14 @@ function ItemList(props) {
       setDataSource(res.data);
     });
   }, []);
+  const showTotal = (total) => {
+    return `共${total}条`
+  };
   const columns = [
     {
       title: "序号",
       align: "center",
-      render:(text,record,index)=> index+1
+      render: (text, record, index) => index + 1
     },
     {
       title: "ID",
@@ -32,7 +35,7 @@ function ItemList(props) {
       dataIndex: "icon",
       align: "center",
       render: (text, record) => {
-        return <img src={record.icon} alt="" style={{width:'60px'}} />;
+        return <img src={record.icon} alt="" style={{ width: "60px" }} />;
       }
     },
     {
@@ -83,6 +86,11 @@ function ItemList(props) {
       rowKey="_id"
       columns={columns}
       dataSource={dataSource}
+      pagination={{
+        pageSize: 5,
+        showTotal:showTotal,
+        showQuickJumper: true,
+      }}
       bordered
       stripe
     />

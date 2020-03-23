@@ -9,6 +9,9 @@ function ArticleList(props) {
       setDataSource(res.data);
     });
   }, []);
+  const showTotal = (total) => {
+    return `共${total}条`
+  };
   const columns = [
     {
       title: "序号",
@@ -90,6 +93,11 @@ function ArticleList(props) {
       rowKey="_id"
       columns={columns}
       dataSource={dataSource}
+      pagination={{
+        pageSize: 5,
+        showTotal:showTotal,
+        showQuickJumper: true,
+      }}
       bordered
       stripe
     />
