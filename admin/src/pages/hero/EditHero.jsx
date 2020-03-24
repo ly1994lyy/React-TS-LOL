@@ -12,7 +12,7 @@ import {
   Col
 } from "antd";
 import { LoadingOutlined, PlusOutlined,MinusCircleOutlined } from "@ant-design/icons";
-import { getHeroByID, putHero } from "../../services/hero";
+import { getHeroByID, putHero,createHero } from "../../services/hero";
 import { getCategory } from "../../services/category";
 import { getItem } from "../../services/item";
 import { withRouter } from "react-router-dom";
@@ -44,18 +44,21 @@ function EditHero(props) {
   const [itemList, setItemList] = useState([]);
   const [skillsImageUrl, setSkillsImageUrl] = useState([]);
   useEffect(() => {
-    getHeroByID(props.match.params.id).then(res => {
-      if (res.data.scores) {
-        form.setFieldsValue({ ...res.data, ...res.data.scores });
-        const images = []
-        res.data.skills.map(item=>{
-          images.push(item.icon)
-          return
-        })
-        setImageUrl(res.data.avatar);
-        setSkillsImageUrl(images)
-      }
-    });
+    if(props.match.params.id){
+      getHeroByID(props.match.params.id).then(res => {
+        if (res.data.scores) {
+          form.setFieldsValue({ ...res.data, ...res.data.scores });
+          const images = []
+          res.data.skills.map(item=>{
+            images.push(item.icon)
+            return
+          })
+          setImageUrl(res.data.avatar);
+          setSkillsImageUrl(images)
+        }
+      });
+    }
+    
     getCategory().then(res => {
       setCateList(res.data);
     });
@@ -64,9 +67,7 @@ function EditHero(props) {
     });
   }, []);
 
-  function callback(key) {
-    console.log(key);
-  }
+  
 
   const onFinish = async values => {
     const scores = {
@@ -76,21 +77,35 @@ function EditHero(props) {
       survive: values.survive
     };
     const skills = values.skills.map(item=>{
-      if(typeof(item.icon)!="string") {
+      if(props.match.params.id){
+        if(typeof(item.icon)!="string") {
+          item.icon = item.icon.file.response.url
+        }
+        return item
+      }else{
         item.icon = item.icon.file.response.url
+       return item
       }
-      return item
    })
    values.skills = skills
     values.scores = scores;
-    const res = await putHero(props.match.params.id, {
-      ...values,
-      avatar: imageUrl
-    });
+    if(props.match.params.id) {
+      const res = await putHero(props.match.params.id, {
+        ...values,
+        avatar: imageUrl
+      });
+      if (res.status === 200) {
+        message.success("修改成功");
+        props.history.push("/admin/herolist");
+      }
+    }else{
+      const res = await createHero({ ...values, avatar: imageUrl });
     if (res.status === 200) {
-      message.success("修改成功");
+      message.success("添加成功");
       props.history.push("/admin/herolist");
     }
+    }
+    
   };
 
   const uploadButton = (
@@ -120,6 +135,8 @@ function EditHero(props) {
     if (info.file.status === "done") {
       // Get this url from response in real world.
       setLoading(false);
+      skillsImageUrl.push(info.file.response.url)
+      setSkillsImageUrl(skillsImageUrl)
     }
   };
   return (
@@ -130,7 +147,7 @@ function EditHero(props) {
       onFinishFailed={onFinishFailed}
       form={form}
     >
-      <Tabs defaultActiveKey="2" onChange={callback}>
+      <Tabs defaultActiveKey="2">
         <TabPane tab="基本信息" key="1">
           <Form.Item
             label="英雄名称"
@@ -256,11 +273,6 @@ function EditHero(props) {
           >
             <TextArea />
           </Form.Item>
-          <Form.Item {...tailLayout}>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
         </TabPane>
         <TabPane tab="技能信息" key="2">
           <Form.List name="skills">
@@ -352,6 +364,11 @@ function EditHero(props) {
           </Form.List>
         </TabPane>
       </Tabs>
+      <Form.Item {...tailLayout}>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
     </Form>
   );
 }

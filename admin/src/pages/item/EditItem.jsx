@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Button, message,Upload } from "antd";
+import { Form, Input, Button, message, Upload } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import {putItem,getItemByID} from "../../services/item"
+import { putItem, getItemByID, createItem } from "../../services/item";
 import { withRouter } from "react-router-dom";
-import { serveUrl } from "../../utils/config"
+import { serveUrl } from "../../utils/config";
 
 const layout = {
   labelCol: { span: 5 },
@@ -18,26 +18,40 @@ const onFinishFailed = errorInfo => {
 };
 
 function EditItem(props) {
-    const [imageUrl, setImageUrl] = useState("");
-  const [loading,setLoading] = useState(false)
+  const [imageUrl, setImageUrl] = useState("");
+  const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
+
   const onFinish = async values => {
-    const res = await putItem(props.match.params.id, {...values,icon:imageUrl});
-    if(res.status===200){
-      message.success('修改成功！')
-      props.history.push('/admin/itemlist')
-    }else {
-      message.error('修改失败！')
+    if (props.match.params.id) {
+      const res = await putItem(props.match.params.id, {
+        ...values,
+        icon: imageUrl
+      });
+      if (res.status === 200) {
+        message.success("修改成功！");
+        props.history.push("/admin/itemlist");
+      } else {
+        message.error("修改失败！");
+      }
+    } else {
+      const res = await createItem({ ...values, icon: imageUrl });
+      if (res.status === 200) {
+        message.success("添加成功");
+        props.history.push("/admin/itemlist");
+      }
     }
   };
   useEffect(() => {
-    getItemByID(props.match.params.id).then(res => {
+    if (props.match.params.id) {
+      getItemByID(props.match.params.id).then(res => {
         form.setFieldsValue({
-          name: res.data.name,
+          name: res.data.name
         });
-        setImageUrl(res.data.icon)
-    });
-  },[]);
+        setImageUrl(res.data.icon);
+      });
+    }
+  }, []);
 
   const uploadButton = (
     <div>
@@ -46,17 +60,17 @@ function EditItem(props) {
     </div>
   );
 
-  const  handleChange = info => {
-    if (info.file.status === 'uploading') {
-      setLoading(true)
+  const handleChange = info => {
+    if (info.file.status === "uploading") {
+      setLoading(true);
       return;
     }
-    if (info.file.status === 'done') {
+    if (info.file.status === "done") {
       // Get this url from response in real world.
-      setLoading(false)
-      setImageUrl(info.file.response.url)
+      setLoading(false);
+      setImageUrl(info.file.response.url);
     }
-  }
+  };
 
   return (
     <Form
@@ -65,7 +79,6 @@ function EditItem(props) {
       onFinishFailed={onFinishFailed}
       form={form}
     >
-      
       <Form.Item
         label="装备名称"
         name="name"
@@ -79,7 +92,7 @@ function EditItem(props) {
           listType="picture-card"
           className="avatar-uploader"
           showUploadList={false}
-          action={serveUrl+"/admin/api/upload"}
+          action={serveUrl + "/admin/api/upload"}
           onChange={info => handleChange(info)}
         >
           {imageUrl ? (
@@ -89,7 +102,6 @@ function EditItem(props) {
           )}
         </Upload>
       </Form.Item>
-
 
       <Form.Item {...tailLayout}>
         <Button type="primary" htmlType="submit">
@@ -101,4 +113,3 @@ function EditItem(props) {
 }
 
 export default withRouter(EditItem);
-

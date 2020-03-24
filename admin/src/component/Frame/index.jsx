@@ -34,7 +34,7 @@ function Index(props) {
         onCollapse={onCollapse}
         breakpoint="sm"
       >
-        <div className="logo">王者荣耀管理后台</div>
+        <div className="logo" />
         <Menu
           theme="dark"
           defaultSelectedKeys={[`${defaultKey}`]}

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Button, message, Select } from "antd";
 import { getCategory } from "../../services/category";
-import { getArticleByID, putArticle } from "../../services/article";
+import { getArticleByID, putArticle,createArticle } from "../../services/article";
 import { withRouter } from "react-router-dom";
 // 引入编辑器组件
 import BraftEditor from "braft-editor";
 // 引入编辑器样式
 import "braft-editor/dist/index.css";
-
 
 const { Option } = Select;
 
@@ -23,34 +22,44 @@ const onFinishFailed = errorInfo => {
   console.log("Failed:", errorInfo);
 };
 
-
-
 function EditArticle(props) {
   const [form] = Form.useForm();
-  const [editorState,setEditorState] = useState(BraftEditor.createEditorState(null))
+  const [cateList, setCateList] = useState([]);
+  const [editorState, setEditorState] = useState(
+    BraftEditor.createEditorState(null)
+  );
   const onFinish = async values => {
-    values.body = editorState.toHTML()
-    const res = await putArticle(props.match.params.id,{...values});
-    if (res.status === 200) {
-      message.success("添加成功");
-      props.history.push("/admin/articlelist");
+    values.body = editorState.toHTML();
+    if (props.match.params.id) {
+      const res = await putArticle(props.match.params.id, { ...values });
+      if (res.status === 200) {
+        message.success("添加成功");
+        props.history.push("/admin/articlelist");
+      }
+    } else {
+      const res = await createArticle({ ...values });
+      if (res.status === 200) {
+        message.success("添加成功");
+        props.history.push("/admin/articlelist");
+      }
     }
   };
 
-  const [cateList, setCateList] = useState([]);
   useEffect(() => {
-    getArticleByID(props.match.params.id).then(res => {
-        form.setFieldsValue({...res.data});
-        setEditorState(BraftEditor.createEditorState(res.data.body))
-    });
+    if (props.match.params.id) {
+      getArticleByID(props.match.params.id).then(res => {
+        form.setFieldsValue({ ...res.data });
+        setEditorState(BraftEditor.createEditorState(res.data.body));
+      });
+    }
     getCategory().then(res => {
       setCateList(res.data);
     });
-  },[]);
+  }, []);
 
-  const handleEditorChange = (e) => {
-    setEditorState(e)
-}
+  const handleEditorChange = e => {
+    setEditorState(e);
+  };
 
   return (
     <Form
@@ -84,7 +93,7 @@ function EditArticle(props) {
       >
         <BraftEditor
           value={editorState}
-          onChange={(e)=>handleEditorChange(e)}
+          onChange={e => handleEditorChange(e)}
         />
       </Form.Item>
 
@@ -98,4 +107,3 @@ function EditArticle(props) {
 }
 
 export default withRouter(EditArticle);
-
