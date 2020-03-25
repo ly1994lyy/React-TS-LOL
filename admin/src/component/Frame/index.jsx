@@ -4,7 +4,10 @@ import {
   TeamOutlined,
   UserOutlined,
   PieChartOutlined,
-  LoginOutlined
+  LoginOutlined,
+  ProfileOutlined,
+  BarsOutlined,
+  SnippetsOutlined
 } from "@ant-design/icons";
 import { withRouter, NavLink } from "react-router-dom";
 
@@ -53,7 +56,7 @@ function Index(props) {
             key="sub1"
             title={
               <span>
-                <UserOutlined />
+                <BarsOutlined />
                 <span>分类管理</span>
               </span>
             }
@@ -69,7 +72,7 @@ function Index(props) {
             key="sub2"
             title={
               <span>
-                <TeamOutlined />
+                <SnippetsOutlined />
                 <span>装备管理</span>
               </span>
             }
@@ -101,7 +104,7 @@ function Index(props) {
             key="sub4"
             title={
               <span>
-                <TeamOutlined />
+                <ProfileOutlined />
                 <span>文章管理</span>
               </span>
             }
@@ -117,7 +120,7 @@ function Index(props) {
             key="sub5"
             title={
               <span>
-                <TeamOutlined />
+                <UserOutlined />
                 <span>用户管理</span>
               </span>
             }
