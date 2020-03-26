@@ -97,7 +97,6 @@ module.exports = app => {
 
   app.post("/admin/api/login", async (req, res) => {
     const { username, password } = req.body;
-    adminUser.create({ username: "wzry", password: "123" }); //第一次登陆之后请删除此行代码
     const user = await adminUser.findOne({ username }).select("+password");
     assert(user, 422, "用户不存在！");
     const isValid = require("bcrypt").compareSync(password, user.password);

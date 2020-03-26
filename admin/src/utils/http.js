@@ -3,7 +3,7 @@ import { message } from "antd";
 const createHistory = require("history").createHashHistory
 
 const instance = axios.create({
-  baseURL: "http://localhost:4000/admin/api"
+  baseURL: "admin/api"
 });
 
 instance.interceptors.response.use(
